@@ -290,3 +290,185 @@ y la declaracion en html seria la siguiente:
 
 </personas>
 ~~~
+
+---
+
+## UF2
+
+### Sintaxis de XML, normas sintacticas
+
+La sintaxis de un documento XML es muy sencilla, ya que se basa en un docu-
+mento de texto ASCII, una cabecera y un conjunto extendido de etiquetas. Sólo
+hay que tener en cuenta una serie de reglas sintácticas a la hora de escribir archivos en XML. Veamos cuáles son:
+
+- Todos los elementos XML deben tener una etiqueta de cierre.
+- El XML distingue entre mayúsculas y minúsculas.
+- Los elementos XML tienen que estar correctamente anidados.
+- Los documentos XML deben tener siempre un único elemento raíz.
+- Los atributos XML deben ir entre comillas, simples o dobles.
+- Existen caracteres especiales que tienen un determinado significado para el XML. Por ejemplo, el carácter < puede confundirse con el principio de una etiqueta. Para
+evitarlo se usan entidades de referencia (más adelante veremos cómo crearlas).
+- La sintaxis para escribir un comentario dentro de un archivo XML es igual que en
+HTML (entre los signos \<!-- Comentario -->).
+
+#### Reglas sobre las etiquetas
+
+- Pueden contener letras, números y otros caracteres.
+- No pueden empezar con un número o un carácter de puntuación.
+- No pueden empezar con las letras xml (o XML, Xml, etc.); excepto esta salvedad, puede usarse cualquier palabra.
+- No pueden contener espacios.
+- Pueden escribirse etiquetas sin contenido, pero hay que cerrarla.
+
+~~~xml
+<etiqueta> </etiqueta>
+~~~
+
+#### Consejos de nomenclatura
+
+En XML, los elementos, atributos, etc., tienen nombre, el cual debe cumplir estas
+reglas: en XML se distingue entre mayúsculas y minúsculas, por lo que hay que
+tener cuidado al utilizar el nombre desde otro punto del documento. Éste debe
+comenzar, además, por una letra, a la que después le seguirán más letras, números o el signo de subrayado o guión bajo. Veamos algunos consejos básicos a la hora de
+escribir los nombres de las etiquetas:
+
+- Utilizar nombres descriptivos, cortos y simples.
+- Sustituir los espacios por el guión bajo.
+- No usar los caracteres - . :
+- Los documentos XML suelen tener su correspondencia en una base de datos,
+por lo que conviene utilizar las reglas de nomenclatura de la base de datos del documento.
+- Los caracteres no ingleses son legales en XML, pero pueden tener problemas de compatibilidad.
+
+---
+
+### Bloques de texto no analizados por XML
+
+~~~xml
+<![CDATA[
+    <a href="https://mireceta.com/receta1">Mi receta</a>
+]]>
+~~~
+
+Las entidades predefinidas tales como &lt;, &gt;, y &amp; requieren escribir y, por lo general, son difíciles de leer en el markup. En tales casos, sección CDATA se puede utilizar. Mediante sección CDATA, se ordena el analizador que una sección en particular de el documento no contiene marcado y debe ser tratado como texto normal.
+
+~~~xml
+&lt;, &gt;, y &amp;
+~~~
+
+### Sindicación (RSS)
+
+#### Estrucctura de un RSS
+
+~~~xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+    <channel>
+        <title>Spoilers</title>
+        <link>http://www.decine.es</link>
+        <description>Las mejores RSS sobre cine</description>
+        <item>
+            <title>Cinemania</title>
+            <link>https://www.20minutos.es/cinemania/</link>
+            <description>Cine, series, críticas y mucho más</description>
+        </item>
+        <item>
+            <title>Estrenos de cine</title>
+            <link>https://www.sensacine.com/peliculas/estrenos/es/</link>
+            <description>Estrenos de la semana. Encuentra aquí cada viernes los estrenos en cines.
+            Películas más esperadas Estrenos de cine por mes Próximos estrenos EEUU.</description>
+        </item>
+        <item>
+            <title>Espinof</title>
+            <link>https://www.espinof.com/</link>
+            <description>Espinof, últimas noticias de cine, televisión y series</description>
+        </item>
+    </channel>
+</rss>
+~~~
+
+### Añadir CSS a un XML
+
+~~~xml
+<?xml-stylesheet href="style.css" ?>
+~~~
+
+~~~css
+nombre {
+    color: blue;
+    font-weight: bold;
+    font-size: larger;
+}
+ingredientes {
+    color: greenyellow;
+    display: list-item;
+    margin-left: 20px;
+}
+preparacion {
+    font-weight: bolder;
+    color: crimson;
+}
+
+~~~
+
+---
+
+### ¿Que es un DTD?
+
+Un documento DTD (Definición de Tipo de Documento) establece las reglas de formación del len-
+guaje formal, es decir, qué combinaciones de símbolos elementales son sintácticamente correctas
+en un documento XML.
+
+#### DTD interno
+
+Un DTD se denomina DTD interno cuando los elementos se han declarado dentro del archivo XML. Para referenciarlo como DTD interno, el atributo standalone en la declaración XML se debe marcar con un Si. Esto significa que la declaración funciona al margen de la fuente externa.
+
+~~~xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE coches [
+<!ELEMENT coches (coches+)>
+<!ELEMENT coches (matricula, marca, modelo, hibrido?)>
+<!ELEMENT matricula (#PCDATA)>
+<!ELEMENT modelo (#PCDATA)>
+<!ELEMENT hibrido EMPTY>
+]>
+<coches>
+<matricula>1234ABC</matricula>
+<marca>Toyota</marca>
+<modelo>Prius</modelo>
+<hibrido/>
+</coches>
+~~~
+
+#### DTD externo
+
+En los DTD externos, los elementos se declaran fuera del archivo XML. Se puede acceder a ellos especificando los atributos del sistema que pueden ser o un archivo legal .dtd o una dirección URL válida. Para referenciarlo como DTD externo, el atributo standalone en la declaración XML se debe marcar con un no. Esto significa, que la declaración incluye información de una fuente externa.
+
+~~~xml
+archivo_dtd
+
+<!ELEMENT alumno (nombre, apellidos, dirección, edad)>
+<!ELEMENT nombre (#PCDATA)>
+<!ELEMENT apellidos (#PCDATA)>
+<!ELEMENT direccion(#PCDATA)>
+<!ELEMENT edad (#PCDATA)>
+
+archivo_xml
+
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!DOCTYPE address SYSTEM "archivo.dtd">
+
+...
+~~~
+
+---
+
+### XML Schema
+
+Es una recomendación desarrollada por W3C, permite definir la estructura y contenido de un
+documento XML. Es mucho más potente y versátil que DTD, además de ser más complicado.
+Tiene un tipado fuerte, con tipos de datos similares a los lenguajes de programación y bases
+de datos, el usuario puede definir tipos de datos a partir de los existentes.
+Tiene características de orientación a objetos y cardinalidad precisa.
+XML schema es un documento XML por lo que no hay que aprender otra sintaxis. Permite
+representación de claves primarias y ajenas.
+El uso de XML schema se recomienda a la hora de manejar ficheros XML de gran tamaño y
+mas complejos.
