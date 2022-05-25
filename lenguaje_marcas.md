@@ -106,7 +106,7 @@ Algunos ejemplos son...
     <ul>
         <li>1.1</li>
         <li>1.2</li>
-    <li>1.3</li>
+        <li>1.3</li>
     </ul>
     <li>Segundo</li>
     <li>Tercero</li>
