@@ -8,4 +8,4 @@
 
 ## Bases de datos
 
-[Enlace a UF1]([enlace](https://github.com/jramosperez84/examenes/blob/main/bbdd.md))
+[Enlace a UF1](https://github.com/jramosperez84/examenes/blob/main/bbdd.md)
